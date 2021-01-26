@@ -1,7 +1,7 @@
 {
   "name": "@studio/related-tests",
   "version": "0.1.0",
-  "description": "",
+  "description": "Run related tests with lint-staged",
   "main": "index.js",
   "scripts": {
     "lint": "eslint .",
