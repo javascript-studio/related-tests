@@ -1,17 +1,17 @@
 'use strict';
 
-const fs = require('fs');
+const fs = require('fs/promises');
 
 module.exports = withRelatedTests;
 
 function withRelatedTests(command) {
-  return (files) => {
-    const tests = findTests(files);
+  return async (files) => {
+    const tests = await findTests(files);
     return tests.length ? `${command} ${tests.join(' ')}` : 'true';
   };
 }
 
-function findTests(files) {
+async function findTests(files) {
   const tests = new Set();
   for (const file of files) {
     if (file.endsWith('.test.js')) {
@@ -20,7 +20,7 @@ function findTests(files) {
     }
     const test = file.replace(/\.js$/, '.test.js');
     try {
-      fs.accessSync(test); // eslint-disable-line node/no-sync
+      await fs.access(test); // eslint-disable-line node/no-sync
     } catch (e) {
       continue;
     }
