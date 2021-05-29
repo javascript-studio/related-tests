@@ -24,5 +24,19 @@ module.exports = {
 };
 ```
 
+## Tip
+
+To run the same test command, configure a `test:files` script and call
+`withRelatedTests('npm run test:files')`:
+
+```json
+{
+  "scripts": {
+    "test": "npm run test:files -- './{,!(node_modules)/**}/*.test.js'",
+    "test:files": "mocha --require test/hooks.js"
+  }
+}
+```
+
 [husky]: https://github.com/typicode/husky
 [lint-staged]: https://github.com/okonet/lint-staged
