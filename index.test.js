@@ -27,6 +27,14 @@ describe('withRelatedTests', () => {
     assert.equals(script, `${command} some.test.js`);
   });
 
+  it('returns file ending with -test.js', async () => {
+    sinon.replace(fs, 'readdir', sinon.fake.resolves(['some-test.js']));
+
+    const script = await lintStaged(['some-test.js']);
+
+    assert.equals(script, `${command} some-test.js`);
+  });
+
   it('returns matching .test.js files if they exist', async () => {
     sinon.replace(
       fs,
@@ -37,6 +45,90 @@ describe('withRelatedTests', () => {
     const script = await lintStaged(['foo.js', 'bar.js']);
 
     assert.equals(script, `${command} foo.test.js bar.test.js`);
+  });
+
+  it('returns matching -test.js files if they exist', async () => {
+    sinon.replace(
+      fs,
+      'readdir',
+      sinon.fake.resolves(['foo.js', 'foo-test.js', 'bar.js', 'bar-test.js'])
+    );
+
+    const script = await lintStaged(['foo.js', 'bar.js']);
+
+    assert.equals(script, `${command} foo-test.js bar-test.js`);
+  });
+
+  it('returns matching _suffix.test.js files if they exist', async () => {
+    sinon.replace(
+      fs,
+      'readdir',
+      sinon.fake.resolves(['foo.js', 'foo_abc.test.js', 'foo_xyz.test.js'])
+    );
+
+    const script = await lintStaged(['foo.js', 'bar.js']);
+
+    assert.equals(script, `${command} foo_abc.test.js foo_xyz.test.js`);
+  });
+
+  it('returns matching -suffix.test.js files if they exist', async () => {
+    sinon.replace(
+      fs,
+      'readdir',
+      sinon.fake.resolves(['foo.js', 'foo-abc.test.js', 'foo-xyz.test.js'])
+    );
+
+    const script = await lintStaged(['foo.js', 'bar.js']);
+
+    assert.equals(script, `${command} foo-abc.test.js foo-xyz.test.js`);
+  });
+
+  it('returns matching -suffix-test.js files if they exist', async () => {
+    sinon.replace(
+      fs,
+      'readdir',
+      sinon.fake.resolves(['foo.js', 'foo-abc-test.js', 'foo-xyz-test.js'])
+    );
+
+    const script = await lintStaged(['foo.js', 'bar.js']);
+
+    assert.equals(script, `${command} foo-abc-test.js foo-xyz-test.js`);
+  });
+
+  it('returns matching .suffix.test.js files if they exist', async () => {
+    sinon.replace(
+      fs,
+      'readdir',
+      sinon.fake.resolves(['foo.js', 'foo.abc.test.js', 'foo.xyz.test.js'])
+    );
+
+    const script = await lintStaged(['foo.js', 'bar.js']);
+
+    assert.equals(script, `${command} foo.abc.test.js foo.xyz.test.js`);
+  });
+
+  it('returns matching .suffix-test.js files if they exist', async () => {
+    sinon.replace(
+      fs,
+      'readdir',
+      sinon.fake.resolves(['foo.js', 'foo.abc-test.js', 'foo.xyz-test.js'])
+    );
+
+    const script = await lintStaged(['foo.js', 'bar.js']);
+
+    assert.equals(script, `${command} foo.abc-test.js foo.xyz-test.js`);
+  });
+
+  it('does not match files with same basename prefix', async () => {
+    sinon.replace(
+      fs,
+      'readdir',
+      sinon.fake.resolves(['data.js', 'data.test.js', 'database.test.js'])
+    );
+
+    const script = await lintStaged(['data.js']);
+
+    assert.equals(script, `${command} data.test.js`);
   });
 
   it('does not return matching test they do not exist', async () => {
