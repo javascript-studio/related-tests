@@ -2,14 +2,15 @@
 
 🎓 Run related tests with `lint-staged`.
 
-> Runs a command with all tests for staged files using the pattern
-> `${filename}.test.js`.
+> Runs a command with all tests for staged files named `${filename}.test.js`,
+> `${filename}-test.js`, `${filename}_anything.test.js`,
+> `${filename}-anything.test.js` or `${filename}.anything.test.js`.
 
 ## Setup
 
 This assumes you have [husky][] and [lint-staged][] installed.
 
-```
+```bash
 npm i @studio/related-tests -D
 ```
 
