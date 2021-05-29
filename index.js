@@ -13,18 +13,18 @@ function withRelatedTests(command) {
 
 function findTests(files) {
   const tests = new Set();
-  files.forEach((file) => {
+  for (const file of files) {
     if (file.endsWith('.test.js')) {
       tests.add(file);
-      return;
+      continue;
     }
     const test = file.replace(/\.js$/, '.test.js');
     try {
       fs.accessSync(test); // eslint-disable-line node/no-sync
     } catch (e) {
-      return;
+      continue;
     }
     tests.add(test);
-  });
+  }
   return Array.from(tests);
 }
