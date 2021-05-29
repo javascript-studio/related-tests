@@ -1,6 +1,6 @@
 {
   "name": "@studio/related-tests",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Run related tests with lint-staged",
   "main": "index.js",
   "homepage": "https://github.com/javascript-studio/related-tests",
