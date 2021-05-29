@@ -5,7 +5,7 @@
   "main": "index.js",
   "homepage": "https://github.com/javascript-studio/related-tests",
   "engines": {
-    "node": ">=12"
+    "node": ">=14"
   },
   "scripts": {
     "lint": "eslint .",
