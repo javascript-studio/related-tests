@@ -7,9 +7,8 @@
   "scripts": {
     "lint": "eslint .",
     "test": "mocha '*.test.js'",
-    "watch": "npm t -- --watch",
-    "posttest": "npm run lint && npm run prettier:check",
-    "preversion": "npm test",
+    "watch": "npm test -- --watch",
+    "preversion": "npm run lint && npm run prettier:check && npm test",
     "version": "changes --commits --footer",
     "postversion": "git push --follow-tags && npm publish",
     "prettier:check": "prettier --check '**/*.{js,md}'",
